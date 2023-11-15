@@ -1,0 +1,5 @@
+export const TipoCodigo = {
+  INTEROPERABILIDAD: 3,
+  INTERFAZ_GRAFICA: 2,
+  CIUDDANIA_DIGIAL: 1,
+};
