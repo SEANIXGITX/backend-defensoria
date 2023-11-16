@@ -1,14 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus } from '@nestjs/common';
 import { ProgramaMetaService } from './programa-meta.service';
 import { CreateProgramaMetaDto } from './dto/create-programa-meta.dto';
 import { UpdateProgramaMetaDto } from './dto/update-programa-meta.dto';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiMessageResponse } from 'src/shared/decorators/api-message-response.decorator';
+import { ProgramaMetaEntity } from './entities/programa-meta.entity';
 
-@Controller('programa-meta')
+@Controller('programas-meta')
+@ApiTags('programas-meta')
 export class ProgramaMetaController {
   constructor(private readonly programaMetaService: ProgramaMetaService) {}
 
   @Post()
-  create(@Body() createProgramaMetaDto: CreateProgramaMetaDto) {
+  @ApiOperation({ summary: 'Crea las metas del programa' })
+  @ApiMessageResponse({ status: HttpStatus.CREATED, model: ProgramaMetaEntity })
+  create(@Body() createProgramaMetaDto: CreateProgramaMetaDto[]) {
     return this.programaMetaService.create(createProgramaMetaDto);
   }
 

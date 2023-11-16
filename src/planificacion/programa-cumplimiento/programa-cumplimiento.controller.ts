@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ProgramaCumplimientoService } from './programa-cumplimiento.service';
 import { CreateProgramaCumplimientoDto } from './dto/create-programa-cumplimiento.dto';
 import { UpdateProgramaCumplimientoDto } from './dto/update-programa-cumplimiento.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('programa-cumplimiento')
+@Controller('programas-cumplimiento')
+@ApiTags('programas-cumplimiento')
 export class ProgramaCumplimientoController {
   constructor(private readonly programaCumplimientoService: ProgramaCumplimientoService) {}
 

@@ -9,8 +9,8 @@ export class ProgramaMetaEntity extends AuditoriaEntity {
   @Column({ type: 'int8', name: 'programa_id', nullable: false })
   programaId: number;
 
-  @Column({ type: 'int4', name: 'codigo_periodo', nullable: false })
-  codigoPeriodo: number;
+  @Column({ type: 'varchar', length: 255, name: 'codigo_periodo', nullable: false })
+  codigoPeriodo: string;
 
   @Column({ type: 'int4', name: 'meta_planeada', nullable: false })
   metaPlaneada: number;

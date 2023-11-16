@@ -18,10 +18,10 @@ export class PresupuestoEntity extends AuditoriaEntity {
   gestionId: number;
 
   @Column({ type: 'int4', name: 'organismo_financiador_id', nullable: false })
-  organismo_financiador_id: number;
+  organismoFinanciadorId: number;
 
   @Column({ type: 'int8', name: 'monto_aprobado', nullable: true })
-  monto_aprobado: number;
+  montoAprobado: number;
 
   @Column('smallint', { name: 'estado_id', nullable: false })
   estadoId: number;

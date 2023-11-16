@@ -20,6 +20,7 @@ export class ProgramaService {
   constructor(@InjectRepository(ProgramaEntity) private programaRepository: Repository<ProgramaEntity>) {}
 
   async create(createProgramaDto: CreateProgramaDto) {
+    // codigo o descripcion
     const buscar = await this.programaRepository.findOne({ where: { codigo: createProgramaDto.codigo, activo: true } }).catch(e => {
       throw new UnprocessableEntityException(e.message, MessageEnum.UNPROCESSABLE);
     });
