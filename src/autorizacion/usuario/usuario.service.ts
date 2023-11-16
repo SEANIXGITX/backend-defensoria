@@ -104,7 +104,7 @@ export class UsuarioService {
   async findOne(id: number): Promise<MessageResponse<UsuarioEntity>> {
     const usuario = await this.usuarioRepository.findOne({
       where: { id, activo: true },
-      select: ['id', 'nombre', 'habilitado'],
+      select: ['id', 'nombre', 'unidadId', 'habilitado'],
       // relations: ['persona', 'persona.pais', 'persona.municipio'],
     });
 
@@ -212,7 +212,7 @@ export class UsuarioService {
   async validate(_usuario: string, clave: string): Promise<MessageResponse<UsuarioEntity>> {
     const usuarioOk = await this.usuarioRepository.findOne({
       where: { nombre: _usuario, habilitado: true, activo: true },
-      select: ['id', 'nombre', 'unidadId', 'clave', 'refreshToken'],
+      select: ['id', 'nombre', 'clave', 'refreshToken'],
     });
     if (!usuarioOk || !(await usuarioOk?.validatePassword(clave))) {
       throw new UnauthorizedException({ message: MessageEnum.INVALID_CREDENTIAL, data: null });
