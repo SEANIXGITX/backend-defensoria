@@ -71,7 +71,7 @@ export class UsuarioService {
       if (existe) throw new ConflictException({ message: MessageEnum.EXIST, data: existe });
       const usuario = new UsuarioEntity();
       Object.assign(usuario, usuarioDto);
-      // usuario.idPersona = persona.id;
+      // usuario.personaId = persona.id;
       usuario.tthhUsuarioId = '1';
       usuario.nombre = usuario.nombre.trim();
       usuario.clave = process.env.DEFAULT_PASS;
@@ -212,7 +212,7 @@ export class UsuarioService {
   async validate(_usuario: string, clave: string): Promise<MessageResponse<UsuarioEntity>> {
     const usuarioOk = await this.usuarioRepository.findOne({
       where: { nombre: _usuario, habilitado: true, activo: true },
-      select: ['id', 'nombre', 'clave', 'refreshToken'],
+      select: ['id', 'nombre', 'unidadId', 'clave', 'refreshToken'],
     });
     if (!usuarioOk || !(await usuarioOk?.validatePassword(clave))) {
       throw new UnauthorizedException({ message: MessageEnum.INVALID_CREDENTIAL, data: null });

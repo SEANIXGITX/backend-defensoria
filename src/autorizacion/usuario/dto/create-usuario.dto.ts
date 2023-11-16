@@ -1,14 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsDefined, IsNotEmpty, IsNumberString, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsDefined, IsNotEmpty, IsNumber, IsNumberString, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateUsuarioDto {
   @ApiProperty()
-  @IsNotEmpty({ message: 'El campo Usuario no debe ser vacío' })
-  @IsString({ message: 'El campo Usuario debe ser de tipo cadena' })
-  @MaxLength(30, { message: 'El campo Usuario excede los 30 caracteres' })
-  @MinLength(4, { message: 'El campo Usuario es menor a 4 caracteres' })
+  @IsNotEmpty({ message: 'El campo nombre no debe ser vacío' })
+  @IsString({ message: 'El campo nombre debe ser de tipo cadena' })
+  @MaxLength(30, { message: 'El campo nombre excede los 30 caracteres' })
+  @MinLength(4, { message: 'El campo nombre es menor a 4 caracteres' })
   readonly nombre: string;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'El campo unidadId no debe ser vacío' }) // temporal se debe pedir a rrhh
+  @IsNumber({}, { message: 'El campo unidadId debe ser de tipo cadena' })
+  readonly unidadId: number;
   /*
   @ApiProperty()
   @IsNumberString({}, { message: 'El Identificador de Persona debe ser un numero en cadena' })

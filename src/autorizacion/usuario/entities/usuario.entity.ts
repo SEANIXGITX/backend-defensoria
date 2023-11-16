@@ -10,6 +10,9 @@ export class UsuarioEntity extends AuditoriaEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
+  @Column({ type: 'int4', name: 'unidad_id' })
+  unidadId: number;
+
   @Column({ type: 'varchar', name: 'tthh_usuario_id', length: 60 })
   tthhUsuarioId: string;
 
