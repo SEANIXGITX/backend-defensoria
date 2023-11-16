@@ -10,16 +10,25 @@ import { PaginationDto } from 'src/shared/dto/pagination.dto';
 import { PaginationResult } from 'src/shared/entities/pagination-result';
 import { paginateQuery } from 'src/shared/querys/pagination.query';
 import { EstadoEnum } from 'src/shared/enums/estado.enum';
+import { SolicitudEntity } from '../solicitud/entities/solicitud.entity';
 
 @Injectable()
 export class SolicitudDetalleService {
   entityNameMessage = 'Solicitud Detalle';
+  entityNameSecundaryMessage = 'Solicitud';
 
-  constructor(@InjectRepository(SolicitudDetalleEntity) private solicitudDetalleRepository: Repository<SolicitudDetalleEntity>) {}
+  constructor(
+    @InjectRepository(SolicitudDetalleEntity) private solicitudDetalleRepository: Repository<SolicitudDetalleEntity>,
+    @InjectRepository(SolicitudEntity) private solicitudRepository: Repository<SolicitudEntity>,
+  ) {}
 
   async create(createSolDetalleDto: CreateSolicitudDetalleDto): Promise<MessageResponse<SolicitudDetalleEntity>> {
-    const encontrado = await this.solicitudDetalleRepository.findOneBy({ solicitudId: createSolDetalleDto.solicitudId }).catch(e => {
-      throw new UnprocessableEntityException(e.message, MessageEnum.UNPROCESSABLE);
+    const encontrado = await this.solicitudRepository.findOneBy({ idSolicitud: createSolDetalleDto.solicitudId }).catch(e => {
+      console.log(e);
+      throw new NotFoundException({
+        message: Message.notExists(this.entityNameSecundaryMessage, createSolDetalleDto.solicitudId),
+        data: null,
+      });
     });
     if (!encontrado) {
       return new MessageResponse(HttpStatus.NOT_FOUND, MessageEnum.NOT_EXIST, null);
