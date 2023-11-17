@@ -7,6 +7,7 @@ import { EstadoCotizacionModule } from './estado-cotizacion/estado-cotizacion.mo
 import { ProveedorModule } from './proveedor/proveedor.module';
 import { TipoServicioModule } from './tipo-servicio/tipo-servicio.module';
 import { PeriodoModule } from './periodo/periodo.module';
+import { IndicadorModule } from './indicador/indicador.module';
 
-@Module({ imports: [UnidadMedidaModule, FormularioModule, TipoSolicitudModule, GestionModule, EstadoCotizacionModule, ProveedorModule, TipoServicioModule, PeriodoModule] })
+@Module({ imports: [UnidadMedidaModule, FormularioModule, TipoSolicitudModule, GestionModule, EstadoCotizacionModule, ProveedorModule, TipoServicioModule, PeriodoModule, IndicadorModule] })
 export class CatalogoModule {}

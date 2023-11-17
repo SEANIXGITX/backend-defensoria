@@ -3,11 +3,12 @@ import { CreateProgramaMetaDto } from './dto/create-programa-meta.dto';
 import { UpdateProgramaMetaDto } from './dto/update-programa-meta.dto';
 import { ProgramaMetaEntity } from './entities/programa-meta.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { MessageResponse } from 'src/shared/entities/message-response';
 import { Message, MessageEnum } from 'src/shared/enums/message.enum';
 import { EstadoEnum } from 'src/shared/enums/estado.enum';
 import { ProgramaEntity } from '../programa/entities/programa.entity';
+import { PeriodoEntity } from 'src/catalogo/periodo/entities/periodo.entity';
 
 @Injectable()
 export class ProgramaMetaService {
@@ -17,11 +18,20 @@ export class ProgramaMetaService {
   constructor(
     @InjectRepository(ProgramaMetaEntity) private programaMetaRepository: Repository<ProgramaMetaEntity>,
     @InjectRepository(ProgramaEntity) private programaRepository: Repository<ProgramaEntity>,
+    @InjectRepository(PeriodoEntity) private periodoRepository: Repository<PeriodoEntity>,
   ) {}
 
   async create(createProgramaMetaDto: CreateProgramaMetaDto[]) {
-    const PERIODO_GESTION = 3;
+    let PERIODO_GESTION = 0;
     const META_GLOBAL = 100;
+    const periodoEmcontrado = await this.periodoRepository.find({
+      where: { codigo: Like(`%${createProgramaMetaDto[0].codigoPeriodo.substring(0, 1)}%`), activo: true },
+    });
+    if (!periodoEmcontrado) {
+      console.error(' NO EXISTE EL  PERIODO');
+      throw new NotFoundException({ message: Message.errorCreate(this.entityNameMessage), data: null });
+    }
+    PERIODO_GESTION = periodoEmcontrado.length;
     if (PERIODO_GESTION != createProgramaMetaDto.length) {
       console.error('FALTAN METAS POR PERIODO');
       throw new NotFoundException({ message: Message.errorCreate(this.entityNameMessage), data: null });

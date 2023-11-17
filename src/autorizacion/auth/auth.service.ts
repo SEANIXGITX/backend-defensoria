@@ -117,6 +117,7 @@ export class AuthService {
             id: 3,
             cargo: 'Contrataciones',
             unidad: 'Administracion',
+            unidadId: usuario.data.unidadId,
           },
           menus2: usuariosRoles.data,
         },
