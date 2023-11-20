@@ -13,7 +13,7 @@ export class CreateProgramaDto {
   gestionId: number;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'El campo codigo no debe ser vacío' })
+  @IsOptional({ message: 'El campo codigo no debe ser vacío' })
   @IsNumber({}, { message: 'El campo codigo debe estar definido y ser numérico.' })
   codigo: number;
 
@@ -35,4 +35,9 @@ export class CreateProgramaDto {
   @Min(1, { message: 'El campo  meta Global Planeada  debe ser mayor a 1' })
   @Max(100, { message: 'El campo  meta Global Planeada  debe ser igual o menor a 100' })
   metaGlobalPlaneada: number;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'El campo indicadorId no debe ser vacío' })
+  @IsNumber({}, { message: 'El campo indicadorId debe estar definido y ser numérico.' })
+  indicadorId: number;
 }

@@ -8,7 +8,19 @@ import { ProgramaModule } from './programa/programa.module';
 import { ProgramaMetaModule } from './programa-meta/programa-meta.module';
 import { ProgramaCumplimientoModule } from './programa-cumplimiento/programa-cumplimiento.module';
 import { ProgramaIncumplimientoModule } from './programa-incumplimiento/programa-incumplimiento.module';
+import { ProgramaResponsableModule } from './programa-responsable/programa-responsable.module';
 @Module({
-  imports: [OperacionModule, OperacionMetaModule, OperacionObservacionModule, ProductoModule, ProyectoModule, ProgramaModule, ProgramaMetaModule, ProgramaCumplimientoModule, ProgramaIncumplimientoModule],
+  imports: [
+    OperacionModule,
+    OperacionMetaModule,
+    OperacionObservacionModule,
+    ProductoModule,
+    ProyectoModule,
+    ProgramaModule,
+    ProgramaMetaModule,
+    ProgramaCumplimientoModule,
+    ProgramaIncumplimientoModule,
+    ProgramaResponsableModule,
+  ],
 })
 export class PlanificacionModule {}

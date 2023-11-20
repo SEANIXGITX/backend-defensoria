@@ -10,6 +10,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ProgramaEntity } from './entities/programa.entity';
 import { ListaProgramaDto } from './dto/ponderar.dto';
 import { MessageEnum } from 'src/shared/enums/message.enum';
+import { EjecutarProgramaDto } from './dto/ejecutar-programa.dto';
 
 @Controller('programas')
 @ApiTags('Programas')
@@ -59,6 +60,12 @@ export class ProgramaController {
   @ApiMessageResponse({ status: HttpStatus.OK, description: MessageEnum.UPDATED, model: {} })
   grabaPonderacion(@Body() listaPrograma: ListaProgramaDto[]) {
     return this.programaService.grabaPonderacion(listaPrograma);
+  }
+
+  @Patch('/ejecucion/:id')
+  @ApiOperation({ summary: 'graba la ejecucion de un programa' })
+  ejecutar(@Param('id') id: string, @Body() ejecutarProgramaDto: EjecutarProgramaDto) {
+    return this.programaService.ejecucion(+id, ejecutarProgramaDto);
   }
 
   @Patch(':id')

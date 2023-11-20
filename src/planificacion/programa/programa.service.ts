@@ -1,4 +1,3 @@
-import { GestionModule } from './../../catalogo/gestion/gestion.module';
 import { HttpStatus, Injectable, UnprocessableEntityException, ConflictException, NotFoundException } from '@nestjs/common';
 import { CreateProgramaDto } from './dto/create-programa.dto';
 import { UpdateProgramaDto } from './dto/update-programa.dto';
@@ -12,6 +11,7 @@ import { paginateQuery } from 'src/shared/querys/pagination.query';
 import { Message, MessageEnum } from 'src/shared/enums/message.enum';
 import { ListaProgramaDto } from './dto/ponderar.dto';
 import { EstadoEnum } from 'src/shared/enums/estado.enum';
+import { EjecutarProgramaDto } from './dto/ejecutar-programa.dto';
 
 @Injectable()
 export class ProgramaService {
@@ -21,15 +21,22 @@ export class ProgramaService {
 
   async create(createProgramaDto: CreateProgramaDto) {
     // codigo o descripcion
-    const buscar = await this.programaRepository.findOne({ where: { codigo: createProgramaDto.codigo, activo: true } }).catch(e => {
-      throw new UnprocessableEntityException(e.message, MessageEnum.UNPROCESSABLE);
-    });
+    const buscar = await this.programaRepository
+      .findOne({ where: { descripcion: createProgramaDto.descripcion.trim(), gestionId: createProgramaDto.gestionId, activo: true } })
+      .catch(e => {
+        throw new UnprocessableEntityException(e.message, Message.errorCreate(this.entityNameMessage));
+      });
     if (buscar) {
-      return new UnprocessableEntityException(MessageEnum.EXIST);
+      throw new ConflictException({ message: MessageEnum.EXIST, data: buscar });
     }
+    let ultimo = 0;
+    const cantidad = await this.programaRepository.findAndCountBy({ gestionId: createProgramaDto.gestionId });
+    ultimo = cantidad[1] ? cantidad[1] + 1 : 1;
+
     const nuevo = this.programaRepository.create(createProgramaDto);
+    nuevo.codigo = ultimo;
     nuevo.activo = true;
-    nuevo.estadoId = EstadoEnum.AÑADIDO;
+    nuevo.estadoId = EstadoEnum.ANIADIDO;
     await this.programaRepository.save(nuevo).catch(e => {
       throw new UnprocessableEntityException(e.message, Message.errorCreate(this.entityNameMessage));
     });
@@ -123,6 +130,22 @@ export class ProgramaService {
     if (updateProgramaDto.ponderacion) encontrado.ponderacion = updateProgramaDto.ponderacion;
     if (updateProgramaDto.metaGlobalPlaneada) encontrado.metaGlobalPlaneada = updateProgramaDto.metaGlobalPlaneada;
     if (updateProgramaDto.gestionId) encontrado.gestionId = updateProgramaDto.gestionId;
+    encontrado.estadoId = EstadoEnum.MODIFICADO;
+    await this.programaRepository.save(encontrado).catch(e => {
+      throw new UnprocessableEntityException(e.message, Message.errorUpdate(this.entityNameMessage));
+    });
+
+    return new MessageResponse(HttpStatus.OK, MessageEnum.UPDATED, encontrado);
+  }
+
+  async ejecucion(id: number, ejecutarProgramaDto: EjecutarProgramaDto) {
+    const encontrado = await this.programaRepository.findOneBy({ id, activo: true });
+    if (!encontrado) {
+      throw new NotFoundException({ message: Message.notExists(this.entityNameMessage, id), data: null });
+    }
+
+    Object.assign(encontrado, ejecutarProgramaDto);
+    if (ejecutarProgramaDto.resultado) encontrado.resultado = ejecutarProgramaDto.resultado.trim();
     encontrado.estadoId = EstadoEnum.MODIFICADO;
     await this.programaRepository.save(encontrado).catch(e => {
       throw new UnprocessableEntityException(e.message, Message.errorUpdate(this.entityNameMessage));

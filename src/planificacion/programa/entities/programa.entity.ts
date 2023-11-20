@@ -25,6 +25,12 @@ export class ProgramaEntity extends AuditoriaEntity {
   @Column({ type: 'int4', name: 'meta_global_planeada', nullable: false })
   metaGlobalPlaneada: number;
 
+  @Column({ type: 'varchar', nullable: true })
+  resultado: string;
+
+  @Column('smallint', { name: 'indicador_id', nullable: true })
+  indicadorId: number;
+
   @Column('smallint', { name: 'estado_id', nullable: false })
   estadoId: number;
 

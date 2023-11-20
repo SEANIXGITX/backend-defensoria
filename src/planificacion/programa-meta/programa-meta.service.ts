@@ -14,6 +14,7 @@ import { PeriodoEntity } from 'src/catalogo/periodo/entities/periodo.entity';
 export class ProgramaMetaService {
   entityNameMessage = 'ProgramaMeta';
   entitySecundariaNameMessage = 'Programa';
+  entityTersarioNameMessage = 'Periodo';
 
   constructor(
     @InjectRepository(ProgramaMetaEntity) private programaMetaRepository: Repository<ProgramaMetaEntity>,
@@ -29,12 +30,12 @@ export class ProgramaMetaService {
     });
     if (!periodoEmcontrado) {
       console.error(' NO EXISTE EL  PERIODO');
-      throw new NotFoundException({ message: Message.errorCreate(this.entityNameMessage), data: null });
+      throw new NotFoundException({ message: Message.notExists(this.entityTersarioNameMessage, 1) });
     }
     PERIODO_GESTION = periodoEmcontrado.length;
     if (PERIODO_GESTION != createProgramaMetaDto.length) {
       console.error('FALTAN METAS POR PERIODO');
-      throw new NotFoundException({ message: Message.errorCreate(this.entityNameMessage), data: null });
+      throw new NotFoundException({ message: Message.notExists(this.entityTersarioNameMessage, 1) });
     }
     const encontrado = await this.programaRepository.findOne({
       where: { id: createProgramaMetaDto[0].programaId, activo: true },
