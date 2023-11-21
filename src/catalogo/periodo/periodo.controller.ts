@@ -14,11 +14,11 @@ import { PaginationDto } from 'src/shared/dto/pagination.dto';
 @ApiTags('periodos')
 export class PeriodoController {
   constructor(private readonly periodoService: PeriodoService) {}
-
+  /*
   @Post()
   create(@Body() createPeriodoDto: CreatePeriodoDto) {
     return this.periodoService.create(createPeriodoDto);
-  }
+  }*/
 
   @Post('listar')
   @HttpCode(HttpStatus.OK)
@@ -35,7 +35,8 @@ export class PeriodoController {
   listaPorTipo(@Param('tipoId', ParseIntPipe) tipoId: number) {
     return this.periodoService.listaPorTipo(tipoId);
   }
-
+  
+  /*
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePeriodoDto: UpdatePeriodoDto) {
     return this.periodoService.update(+id, updatePeriodoDto);
@@ -44,5 +45,5 @@ export class PeriodoController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.periodoService.remove(+id);
-  }
+  }*/
 }

@@ -1,3 +1,4 @@
+import { ProgramaResponsableService } from './../programa-responsable/programa-responsable.service';
 import { HttpStatus, Injectable, UnprocessableEntityException, ConflictException, NotFoundException } from '@nestjs/common';
 import { CreateProgramaDto } from './dto/create-programa.dto';
 import { UpdateProgramaDto } from './dto/update-programa.dto';
@@ -17,7 +18,10 @@ import { EjecutarProgramaDto } from './dto/ejecutar-programa.dto';
 export class ProgramaService {
   entityNameMessage = 'Programa';
 
-  constructor(@InjectRepository(ProgramaEntity) private programaRepository: Repository<ProgramaEntity>) {}
+  constructor(
+    @InjectRepository(ProgramaEntity) private programaRepository: Repository<ProgramaEntity>,
+    private programaResponsableService: ProgramaResponsableService,
+  ) {}
 
   async create(createProgramaDto: CreateProgramaDto) {
     // codigo o descripcion
@@ -41,6 +45,12 @@ export class ProgramaService {
       throw new UnprocessableEntityException(e.message, Message.errorCreate(this.entityNameMessage));
     });
 
+    const responsables = createProgramaDto.responsables;
+    responsables.forEach(element => {
+      element.programaId = nuevo.id;
+    });
+    const responsablesGuardados = await this.programaResponsableService.create(responsables);
+    nuevo['responsables'] = responsablesGuardados.data;
     return new MessageResponse(HttpStatus.CREATED, MessageEnum.CREATED, nuevo);
   }
 

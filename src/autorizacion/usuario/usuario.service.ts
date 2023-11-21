@@ -101,6 +101,15 @@ export class UsuarioService {
     return new MessageResponse(HttpStatus.OK, MessageEnum.ENTITY_SELECT, usrs);
   }
 
+  async listarPorUnidad(unidadId: number): Promise<MessageResponse<UsuarioEntity[]>> {
+    //const usrs = await this.usuarioRepository.find({ relations: ['persona'], where: { habilitado: true, activo: true } });
+    const usrs = await this.usuarioRepository.find({ where: { unidadId, habilitado: true, activo: true } });
+    if (usrs.length < 1) {
+      return new MessageResponse(HttpStatus.OK, MessageEnum.ENTITY_SELECT_EMPTY, []);
+    }
+    return new MessageResponse(HttpStatus.OK, MessageEnum.ENTITY_SELECT, usrs);
+  }
+
   async findOne(id: number): Promise<MessageResponse<UsuarioEntity>> {
     const usuario = await this.usuarioRepository.findOne({
       where: { id, activo: true },

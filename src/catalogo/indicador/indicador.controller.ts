@@ -12,16 +12,19 @@ import { MessageResponse } from 'src/shared/entities/message-response';
 export class IndicadorController {
   constructor(private readonly indicadorService: IndicadorService) {}
 
+  /*
   @Post()
   create(@Body() createIndicadorDto: CreateIndicadorDto) {
     return this.indicadorService.create(createIndicadorDto);
-  }
+  }*/
+
   @Get()
   @ApiOperation({ summary: 'listado de los indicadores habilitados' })
   @ApiMessageResponse({ status: HttpStatus.OK, model: IndicadorEntity, isArray: true })
   lista(): Promise<MessageResponse<IndicadorEntity[]>> {
     return this.indicadorService.listar();
   }
+  /*
   @Get()
   findAll() {
     return this.indicadorService.findAll();
@@ -40,5 +43,5 @@ export class IndicadorController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.indicadorService.remove(+id);
-  }
+  }*/
 }

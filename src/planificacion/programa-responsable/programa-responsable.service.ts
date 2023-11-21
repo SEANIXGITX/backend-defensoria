@@ -15,15 +15,20 @@ export class ProgramaResponsableService {
   constructor(@InjectRepository(ProgramaResponsableEntity) private responsableRepository: Repository<ProgramaResponsableEntity>) {}
 
   async create(crearResponsableDto: CreateProgramaResponsableDto[]) {
-    for (let index = 0; index < crearResponsableDto.length; index++) {
-      const responsable = crearResponsableDto[index];
-      const buscar = await this.responsableRepository
-        .findOne({ where: { programaId: responsable.programaId, usuarioId: responsable.usuarioId, activo: true } })
-        .catch(e => {
-          throw new UnprocessableEntityException(e.message, MessageEnum.UNPROCESSABLE);
+    const buscar = await this.responsableRepository
+      .find({ where: { programaId: crearResponsableDto[0].programaId, activo: true } })
+      .catch(e => {
+        throw new UnprocessableEntityException(e.message, MessageEnum.UNPROCESSABLE);
+      });
+
+    if (buscar.length > 0) {
+      for (let index = 0; index < buscar.length; index++) {
+        const responsable = buscar[index];
+        responsable.activo = false;
+        responsable.estadoId = EstadoEnum.ELIMINADO;
+        await this.responsableRepository.save(responsable).catch(e => {
+          throw new UnprocessableEntityException(e.message, Message.errorCreate(this.entityNameMessage));
         });
-      if (buscar) {
-        return new UnprocessableEntityException(MessageEnum.EXIST);
       }
     }
 
@@ -50,7 +55,7 @@ export class ProgramaResponsableService {
   async listarPorPrograma(programaId: number) {
     const lista = await this.responsableRepository
       .createQueryBuilder('responsable')
-      .leftJoinAndSelect('responsable.gestion', 'gestion')
+      //.leftJoinAndSelect('responsable.gestion', 'gestion')
       .leftJoinAndSelect('responsable.usuario', 'usuario')
       .where('responsable.activo and responsable.programaId = :programaId', { programaId })
       .orderBy('responsable.usuarioId', 'ASC')

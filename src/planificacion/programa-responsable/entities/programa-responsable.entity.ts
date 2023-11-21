@@ -1,8 +1,9 @@
+import { UsuarioEntity } from 'src/autorizacion/usuario/entities/usuario.entity';
 import { GestionEntity } from 'src/catalogo/gestion/entities/gestion.entity';
 import { AuditoriaEntity } from 'src/shared/entities/auditoria.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 
-@Entity('programas-responsable', { schema: 'planificacion' })
+@Entity('programas_responsable', { schema: 'planificacion' })
 export class ProgramaResponsableEntity extends AuditoriaEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
@@ -22,4 +23,8 @@ export class ProgramaResponsableEntity extends AuditoriaEntity {
   @OneToOne(() => GestionEntity, gestion => gestion.id)
   @JoinColumn([{ name: 'gestion_id', referencedColumnName: 'id' }])
   gestion: GestionEntity;
+
+  @OneToOne(() => UsuarioEntity, usr => usr.id)
+  @JoinColumn([{ name: 'usuario_id', referencedColumnName: 'id' }])
+  usuario: UsuarioEntity;
 }

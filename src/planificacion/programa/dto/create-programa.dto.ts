@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsNotEmpty, IsNumber, IsNumberString, IsOptional, Max, IsString, Matches, MinLength, Min } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsNotEmpty, IsNumber, IsOptional, Max, IsString, Matches, MinLength, Min, ArrayMinSize, ValidateNested } from 'class-validator';
+import { CreateProgramaResponsableDto } from 'src/planificacion/programa-responsable/dto/create-programa-responsable.dto';
 
 export class CreateProgramaDto {
   @ApiProperty()
@@ -40,4 +42,10 @@ export class CreateProgramaDto {
   @IsNotEmpty({ message: 'El campo indicadorId no debe ser vacío' })
   @IsNumber({}, { message: 'El campo indicadorId debe estar definido y ser numérico.' })
   indicadorId: number;
+
+  @ApiProperty({ isArray: true, type: [CreateProgramaResponsableDto] })
+  @Type(() => CreateProgramaResponsableDto)
+  @ArrayMinSize(1)
+  @ValidateNested({ each: true })
+  readonly responsables: CreateProgramaResponsableDto[];
 }

@@ -39,6 +39,13 @@ export class UsuarioController {
     return this.usuarioService.findAll();
   }
 
+  @Get('/unidades/:idUnidad')
+  @ApiOperation({ summary: 'Obtiene el listado de datos de los Usuarios activos por identificador de unidad' })
+  @ApiMessageResponse({ status: HttpStatus.OK, model: UsuarioEntity, isArray: true })
+  listarPorUnidad(@Param('idUnidad', ParseIntPipe) idUnidad: number): Promise<MessageResponse<UsuarioEntity[]>> {
+    return this.usuarioService.listarPorUnidad(idUnidad);
+  }
+
   @UseGuards(RoleGuard)
   @Get(':id')
   @ApiOperation({ summary: 'Obtiene los datos de un Usuario' })

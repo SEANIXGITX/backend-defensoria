@@ -8,5 +8,6 @@ import { ProgramaResponsableEntity } from './entities/programa-responsable.entit
   imports: [TypeOrmModule.forFeature([ProgramaResponsableEntity])],
   controllers: [ProgramaResponsableController],
   providers: [ProgramaResponsableService],
+  exports: [ProgramaResponsableService]
 })
 export class ProgramaResponsableModule {}

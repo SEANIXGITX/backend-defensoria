@@ -19,10 +19,10 @@ export class ProgramaResponsableController {
     return this.programaResponsableService.create(createProgramaResponsableDto);
   }
 
-  @Get()
+  /* @Get()
   findAll() {
     return this.programaResponsableService.findAll();
-  }
+  } */
 
   @Get('programas/:idPrograma')
   @ApiOperation({ summary: 'listado de los responsables por programa' })
@@ -30,7 +30,7 @@ export class ProgramaResponsableController {
     return this.programaResponsableService.listarPorPrograma(idPrograma);
   }
 
-  @Patch(':id')
+ /* @Patch(':id')
   update(@Param('id') id: string, @Body() updateProgramaResponsableDto: UpdateProgramaResponsableDto) {
     return this.programaResponsableService.update(+id, updateProgramaResponsableDto);
   }
@@ -38,5 +38,5 @@ export class ProgramaResponsableController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.programaResponsableService.remove(+id);
-  }
+  }*/
 }

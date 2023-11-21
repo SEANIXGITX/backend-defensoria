@@ -18,7 +18,7 @@ import { AutorizacionModule } from './autorizacion/autorizacion.module';
       port: 5432,
       username: 'developers',
       password: '123456',
-      database: 'ppp3',
+      database: 'ppp',
       entities: [SolicitudEntity, SolicitudDetalleEntity],
       synchronize: false,
       autoLoadEntities: true,

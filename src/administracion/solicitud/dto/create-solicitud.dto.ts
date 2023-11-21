@@ -28,8 +28,8 @@ export class CreateSolicitudDto {
   tipoAdjudicacionId: number;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'El campo unidadId no debe ser vacío' })
-  @IsNumber({}, { message: 'El campo unidadId debe estar definido y ser numérico.' })
+  @IsNotEmpty({ message: 'El campo identificador de unidad del solicitante no debe ser vacío' })
+  @IsNumber({}, { message: 'El campo identificador de unidad del solicitante debe estar definido y ser numérico.' })
   unidadId: number;
 
   @ApiProperty()

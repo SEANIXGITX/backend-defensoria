@@ -20,6 +20,7 @@ export class IndicadorService {
   findAll() {
     return `This action returns all indicador`;
   }
+
   async listar(): Promise<MessageResponse<IndicadorEntity[]>> {
     const lista = await this.unidadMedidaRepository.find({ where: { activo: true }, order: { descripcion: 'ASC' } }).catch(e => {
       throw new UnprocessableEntityException(e.message, Message.errorSelect(this.entityNameMessage));
@@ -29,6 +30,7 @@ export class IndicadorService {
     }
     return new MessageResponse(HttpStatus.OK, MessageEnum.ENTITY_SELECT, lista);
   }
+  
   findOne(id: number) {
     return `This action returns a #${id} indicador`;
   }
