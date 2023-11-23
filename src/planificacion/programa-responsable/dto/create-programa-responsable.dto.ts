@@ -3,7 +3,7 @@ import { IsDateString, IsNotEmpty, IsNumber, IsNumberString, IsOptional, Max, Is
 
 export class CreateProgramaResponsableDto {
   @ApiProperty()
-  @IsNotEmpty({ message: 'El campo programaId no debe ser vacío' })
+  @IsOptional({ message: 'El campo programaId no debe ser vacío' })
   @IsNumber({}, { message: 'El campo programaId debe estar definido y ser numérico.' })
   programaId: number;
 

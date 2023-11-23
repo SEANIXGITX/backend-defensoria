@@ -14,6 +14,11 @@ import {
 
 export class CreateEspecificacionTecnicaDetalleDto {
   @ApiProperty()
+  @IsNotEmpty({ message: 'El campo solicitudId no debe ser vacío' })
+  @IsNumber({}, { message: 'El campo solicitudId debe ser de tipo numerico' })
+  solicitudDetalleId: number;
+
+  @ApiProperty()
   @IsNotEmpty({ message: 'El campo cantidad no debe ser vacío' })
   @IsNumber({}, { message: 'El campo cantidad debe ser de tipo numerico' })
   readonly cantidad: number;
@@ -42,7 +47,7 @@ export class CreateEspecificacionTecnicaDetalleDto {
   readonly acabado: string;
 }
 
-export class CreateEspecificacionTecnicaDto {
+export class CreateSolicitudEspecificacionTecnicaDto {
   @ApiProperty()
   @IsNotEmpty({ message: 'El campo solicitudId no debe ser vacío' })
   @IsNumber({}, { message: 'El campo solicitudId debe ser de tipo numerico' })

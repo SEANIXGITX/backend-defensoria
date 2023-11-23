@@ -4,7 +4,7 @@ import { UpdateEspecificacionTecnicaDto } from './dto/update-especificacion-tecn
 import { MessageResponse } from 'src/shared/entities/message-response';
 import { EspecificacionTecnicaEntity } from './entities/especificacion-tecnica.entity';
 import { Repository } from 'typeorm';
-import { Message, MessageEnum } from 'src/shared/enums/message.enum';
+import { MessageEnum } from 'src/shared/enums/message.enum';
 import { EstadoEnum } from 'src/shared/enums/estado.enum';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FormularioService } from 'src/catalogo/formulario/formulario.service';
@@ -21,7 +21,7 @@ export class EspecificacionTecnicaService {
   async create(createEspecificacionTecnicaDto: CreateEspecificacionTecnicaDto) {
     //const valores = [{ concepto: 'ddd', modalidad: 'cccc', seleccion: 'cccc' }];
     const valores = createEspecificacionTecnicaDto;
-    const solicitud = valores.solicitudId
+    const solicitud = valores.solicitudId;
     delete valores.solicitudId
     for (const atributo in valores) {
       console.log(atributo, valores[atributo]); // Esto imprimirá los nombres de los atributos

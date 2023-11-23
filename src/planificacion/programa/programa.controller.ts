@@ -1,4 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpCode,
+  HttpStatus,
+  ParseIntPipe,
+  BadRequestException,
+  Res,
+  Response,
+  Query,
+} from '@nestjs/common';
 import { ProgramaService } from './programa.service';
 import { CreateProgramaDto } from './dto/create-programa.dto';
 import { UpdateProgramaDto } from './dto/update-programa.dto';
@@ -11,6 +26,7 @@ import { ProgramaEntity } from './entities/programa.entity';
 import { ListaProgramaDto } from './dto/ponderar.dto';
 import { MessageEnum } from 'src/shared/enums/message.enum';
 import { EjecutarProgramaDto } from './dto/ejecutar-programa.dto';
+import axios from 'axios';
 
 @Controller('programas')
 @ApiTags('Programas')
@@ -46,6 +62,44 @@ export class ProgramaController {
   @ApiOperation({ summary: 'listado de todos los programas de una gestion especifica', description: 'Por ejemplo para ponderar' })
   listaPorGestion(@Param('gestionId', ParseIntPipe) gestionId: number) {
     return this.programaService.listarParaPonderacion(gestionId);
+  }
+  @Get('reporte')
+  async generateReport(@Query() reportParams: any, @Response({ passthrough: true }) res) {
+    try {
+      // Realiza una solicitud a JasperReport para generar el informe
+      const jasperReportResponse = await axios.get('http://192.168.202.55:8080/jasperserver/rest_v2/reports/reports/programas.html', {
+        params: { ParamId: 2 },
+        responseType: 'arraybuffer', // Indica que esperamos una respuesta en formato de arreglo de bytes
+      });
+
+      // Devuelve la respuesta al cliente
+      res.set('Content-Type', 'application/pdf'); // Establece el tipo de contenido como PDF
+      res.send(jasperReportResponse.data); // Envía el informe como respuesta
+    } catch (error) {
+      // Maneja cualquier error que pueda ocurrir durante la generación del informe
+      console.error('Error al generar el informe:', error);
+      res.status(500).send('Ocurrió un error al generar el informe');
+    }
+  }
+  @Get('reporte1')
+  async generateReport1(@Query() reportParams: any, @Response({ passthrough: true }) res) {
+    try {
+      // Devuelve la respuesta al cliente
+      res.set({ 'Content-Type': 'application/pdf', 'Content-Security-Policy': `frame-ancestors 'self' *` }); // Establece el tipo de contenido como PDF
+      // Realiza una solicitud a JasperReport para generar el informe
+      const jasperReportResponse = await axios.get(
+        'http://192.168.202.55:8080/jasperserver/rest_v2/reports/reports/programas.html?ParamId=2',
+        {
+          responseType: 'arraybuffer', // Indica que esperamos una respuesta en formato de arreglo de bytes
+        },
+      );
+
+      res.send(jasperReportResponse); // Envía el informe como respuesta
+    } catch (error) {
+      // Maneja cualquier error que pueda ocurrir durante la generación del informe
+      console.error('Error al generar el informe:', error);
+      res.status(500).send('Ocurrió un error al generar el informe');
+    }
   }
 
   @Get(':id')

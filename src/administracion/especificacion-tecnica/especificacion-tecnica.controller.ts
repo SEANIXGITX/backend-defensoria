@@ -16,11 +16,11 @@ export class EspecificacionTecnicaController {
   create(@Body() createEspecificacionTecnicaDto: CreateEspecificacionTecnicaDto) {
     return this.especificacionTecnicaService.create(createEspecificacionTecnicaDto);
   }
-
+/*
   @Get()
   findAll() {
     return this.especificacionTecnicaService.findAll();
-  }
+  }*/
 
   @Get(':solicitudId')
   @ApiOperation({ summary: 'Obtiene las especificaciones tecnicas de una Solicitud' })
@@ -28,7 +28,7 @@ export class EspecificacionTecnicaController {
   findOne(@Param('solicitudId', ParseIntPipe) solicitudId: string) {
     return this.especificacionTecnicaService.findOne(+solicitudId);
   }
-
+/*
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEspecificacionTecnicaDto: UpdateEspecificacionTecnicaDto) {
     return this.especificacionTecnicaService.update(+id, updateEspecificacionTecnicaDto);
@@ -37,5 +37,5 @@ export class EspecificacionTecnicaController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.especificacionTecnicaService.remove(+id);
-  }
+  }*/
 }

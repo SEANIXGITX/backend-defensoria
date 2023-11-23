@@ -3,7 +3,6 @@ import { EspecificacionTecnicaService } from './especificacion-tecnica.service';
 import { EspecificacionTecnicaController } from './especificacion-tecnica.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EspecificacionTecnicaEntity } from './entities/especificacion-tecnica.entity';
-import { FormularioService } from 'src/catalogo/formulario/formulario.service';
 import { FormularioModule } from 'src/catalogo/formulario/formulario.module';
 
 @Module({

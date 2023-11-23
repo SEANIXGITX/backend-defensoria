@@ -21,9 +21,9 @@ export class FormularioService {
     return `This action returns all formulario`;
   }
 
-  async listarColumnas(codigoFormulario: number): Promise<MessageResponse<FormularioEntity[]>> {
+  async listarColumnas(codigoFormulario: number, padreId: number = 0): Promise<MessageResponse<FormularioEntity[]>> {
     const lista = await this.formularioRepository
-      .find({ where: { codigo: codigoFormulario, activo: true }, order: { orden: 'ASC' } })
+      .find({ where: { codigo: codigoFormulario, padreId, activo: true }, order: { orden: 'ASC' } })
       .catch(e => {
         throw new UnprocessableEntityException(e.message, Message.errorSelect(this.entityNameMessage));
       });
